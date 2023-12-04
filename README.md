@@ -33,3 +33,19 @@ sudo apt install wget
 ```
 
 In most cases it should be already done
+
+Import `defaultTargetPlatform` and `kIsWeb` from library `flutter/foundation`
+
+```dart
+import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
+```
+
+You needs to execute:
+
+```dart
+  if (defaultTargetPlatform == TargetPlatform.linux && !kIsWeb) {
+    GalPluginLinux.registerWith();
+  }
+```
+
+Before using any `gal` function
