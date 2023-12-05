@@ -40,7 +40,7 @@ Import `defaultTargetPlatform` and `kIsWeb` from library `flutter/foundation`
 import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
 ```
 
-You needs to execute:
+You might want to execute (optional):
 
 ```dart
   if (defaultTargetPlatform == TargetPlatform.linux && !kIsWeb) {
