@@ -1,3 +1,6 @@
+## 0.0.1
+* First stable version
+
 ## 0.0.1-dev-3
 * Update `pubspec.yaml`
 
