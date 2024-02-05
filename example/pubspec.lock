@@ -97,17 +97,17 @@ packages:
     dependency: "direct main"
     description:
       name: gal
-      sha256: "88f8e87074c7935c49b30910f4afabf1fa9e42a5a1f9b2f6d295c7ef55be29e5"
+      sha256: "54c9b72528efce7c66234f3b6dd01cb0304fd8af8196de15571d7bdddb940977"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.0"
+    version: "2.3.0"
   gal_linux:
     dependency: "direct main"
     description:
       path: ".."
       relative: true
     source: path
-    version: "0.0.1-dev-2"
+    version: "0.0.1"
   http_parser:
     dependency: transitive
     description:

@@ -22,8 +22,9 @@ final class GalPluginLinux extends GalPlatform {
       GalLinuxImpl.putImage(path, album: album);
 
   @override
-  Future<void> putImageBytes(Uint8List bytes, {String? album}) =>
-      GalLinuxImpl.putImageBytes(bytes, album: album);
+  Future<void> putImageBytes(Uint8List bytes,
+          {String? album, required String name}) =>
+      GalLinuxImpl.putImageBytes(bytes, album: album, name: name);
 
   @override
   Future<void> putVideo(String path, {String? album}) =>

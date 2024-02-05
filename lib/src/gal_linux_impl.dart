@@ -163,9 +163,10 @@ final class GalLinuxImpl {
     await executeCommand('mkdir -p ${File(path).parent.path}');
   }
 
-  static Future<void> putImageBytes(Uint8List bytes, {String? album}) async {
+  static Future<void> putImageBytes(Uint8List bytes,
+      {String? album, required String name}) async {
     try {
-      final fileName = '${DateTime.now().toIso8601String()}.png';
+      final fileName = '$name.png';
       final newFileLocation = album == null
           ? _getNewTempFileLocation(fileName: DateTime.now().toIso8601String())
           : _getNewFileLocationWithAlbum(
