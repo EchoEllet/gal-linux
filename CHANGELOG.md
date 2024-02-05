@@ -1,3 +1,7 @@
+## 0.1.0
+* Fix old links
+* Update minimum version of `gal`
+
 ## 0.0.1
 * First stable version
 
