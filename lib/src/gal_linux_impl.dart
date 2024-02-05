@@ -168,7 +168,7 @@ final class GalLinuxImpl {
     try {
       final fileName = '$name.png';
       final newFileLocation = album == null
-          ? _getNewTempFileLocation(fileName: DateTime.now().toIso8601String())
+          ? _getNewTempFileLocation(fileName: fileName)
           : _getNewFileLocationWithAlbum(
               fileType: _FileType.image,
               album: album,
