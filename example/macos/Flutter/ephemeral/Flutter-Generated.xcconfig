@@ -1,6 +1,6 @@
 // This is a generated file; do not edit or check into version control.
-FLUTTER_ROOT=/Users/ahmedhnewa/development/sdks/flutter
-FLUTTER_APPLICATION_PATH=/Users/ahmedhnewa/development/playground/framework_based/flutter/gal_linux/example
+FLUTTER_ROOT=/Users/ellet/Developer/sdks/flutter
+FLUTTER_APPLICATION_PATH=/Users/ellet/Developer/playground/framework_based/flutter/gal-linux/example
 COCOAPODS_PARALLEL_CODE_SIGN=true
 FLUTTER_BUILD_DIR=build
 FLUTTER_BUILD_NAME=2.2.0

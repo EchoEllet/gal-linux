@@ -3,9 +3,10 @@ import 'dart:io' show Directory, File, Platform, ProcessException;
 import 'package:flutter/foundation.dart' show Uint8List, immutable;
 import 'package:flutter/services.dart' show PlatformException;
 import 'package:gal/gal.dart';
-import 'package:gal_linux/src/utils/command_line.dart';
-import 'package:gal_linux/src/utils/uri_extension.dart';
 import 'package:path/path.dart' as path_package show basename;
+
+import '../src/utils/uri_extension.dart';
+import 'utils/command_line.dart';
 
 enum _FileType {
   image,
@@ -48,7 +49,7 @@ final class GalLinuxImpl {
   }) async {
     try {
       final file = File(path);
-      bool downloadedFromNetwork = false;
+      var downloadedFromNetwork = false;
 
       // Download from network
       if (!(await file.exists())) {
@@ -71,7 +72,7 @@ final class GalLinuxImpl {
         // Save it to a temp directory for now
         final templLocation =
             _getNewTempFileLocation(fileName: _baseName(path));
-        await executeCommand('wget -O $templLocation $path');
+        await executeCommand('wget -O "$templLocation" "$path"');
         path = templLocation;
         downloadedFromNetwork = true;
       }
@@ -85,19 +86,19 @@ final class GalLinuxImpl {
         );
         await _makeSureParentFolderExists(path: newFileLocation);
         await executeCommand(
-          'mv $path $newFileLocation',
+          'mv "$path" "$newFileLocation"',
         );
       } else {
         // Save it in temp directory
         final newFileLocation =
             _getNewTempFileLocation(fileName: _baseName(path));
         await _makeSureParentFolderExists(path: newFileLocation);
-        await executeCommand('mv $path $newFileLocation');
+        await executeCommand('mv "$path" "$newFileLocation"');
       }
       // Remove the downloaded temp file from the network if it exists
       if (downloadedFromNetwork) {
         await executeCommand(
-          'rm $path',
+          'rm "$path"',
         );
       }
     } on ProcessException catch (e) {
@@ -160,11 +161,11 @@ final class GalLinuxImpl {
 
   static Future<void> _makeSureParentFolderExists(
       {required String path}) async {
-    await executeCommand('mkdir -p ${File(path).parent.path}');
+    await executeCommand('mkdir -p "${File(path).parent.path}"');
   }
 
   static Future<void> putImageBytes(Uint8List bytes,
-      {String? album, required String name}) async {
+      {required String name, String? album}) async {
     try {
       final fileName = '$name.png';
       final newFileLocation = album == null
@@ -191,7 +192,7 @@ final class GalLinuxImpl {
   }
 
   static Future<void> open() async =>
-      executeCommand('xdg-open ${_getHomeDirectory()}/Pictures');
+      executeCommand('xdg-open "${_getHomeDirectory()}/Pictures"');
 
   /// Requesting an access usually automated if there is a sandbox
   /// but we don't have much info and usually we have an access
