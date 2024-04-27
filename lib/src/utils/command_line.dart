@@ -3,14 +3,14 @@ import 'dart:io' show ProcessException, Process;
 import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb;
 
 Future<String> executeCommand({
-  required String executalbe,
+  required String executable,
   required List<String> args,
   bool printResult = true,
   String? workingDirectory,
 }) async {
   if (kDebugMode) {
     if (printResult) {
-      print('$executalbe ${args.join(' ')}');
+      print('$executable ${args.join(' ')}');
     }
   }
   if (kIsWeb) {
@@ -19,7 +19,7 @@ Future<String> executeCommand({
     );
   }
   final command = await Process.run(
-    executalbe,
+    executable,
     args,
     workingDirectory: workingDirectory,
   );
@@ -32,7 +32,7 @@ Future<String> executeCommand({
       }
     }
     throw ProcessException(
-      executalbe,
+      executable,
       args,
       command.stderr,
       command.exitCode,

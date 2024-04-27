@@ -69,7 +69,7 @@ final class GalLinuxImpl {
         final templLocation =
             _getNewTempFileLocation(fileName: path.basename(filePath));
         await executeCommand(
-          executalbe: 'wget',
+          executable: 'wget',
           args: ['-O', templLocation, filePath],
         );
         filePath = templLocation;
@@ -85,7 +85,7 @@ final class GalLinuxImpl {
         );
         await _makeSureParentFolderExists(path: newFileLocation);
         await executeCommand(
-          executalbe: 'mv',
+          executable: 'mv',
           args: [filePath, newFileLocation],
         );
       } else {
@@ -94,14 +94,14 @@ final class GalLinuxImpl {
             _getNewTempFileLocation(fileName: path.basename(filePath));
         await _makeSureParentFolderExists(path: newFileLocation);
         executeCommand(
-          executalbe: 'mv',
+          executable: 'mv',
           args: [filePath, newFileLocation],
         );
       }
       // Remove the downloaded temp file from the network if it exists
       if (downloadedFromNetwork) {
         await executeCommand(
-          executalbe: 'rm',
+          executable: 'rm',
           args: [filePath],
         );
       }
@@ -166,7 +166,7 @@ final class GalLinuxImpl {
   static Future<void> _makeSureParentFolderExists(
       {required String path}) async {
     await executeCommand(
-      executalbe: 'mkdir',
+      executable: 'mkdir',
       args: ['-p', File(path).parent.path],
     );
   }
@@ -199,7 +199,7 @@ final class GalLinuxImpl {
   }
 
   static Future<void> open() async => executeCommand(
-        executalbe: 'xdg-open',
+        executable: 'xdg-open',
         args: ['${_getHomeDirectory()}/Pictures'],
       );
 
