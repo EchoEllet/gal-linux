@@ -3,7 +3,7 @@ import 'dart:io' show Directory, File, Platform, ProcessException;
 import 'package:flutter/foundation.dart' show Uint8List, immutable;
 import 'package:flutter/services.dart' show PlatformException;
 import 'package:gal/gal.dart';
-import 'package:path/path.dart' as path_package show basename;
+import 'package:path/path.dart' as path show basename;
 
 import '../src/utils/uri_extension.dart';
 import 'utils/command_line.dart';
@@ -22,10 +22,6 @@ enum _FileType {
 final class GalLinuxImpl {
   const GalLinuxImpl._();
 
-  static String _baseName(String path) {
-    return path_package.basename(path);
-  }
-
   static Future<void> putVideo(String path, {String? album}) async {
     await _downloadFileToAlbum(
       path,
@@ -43,17 +39,17 @@ final class GalLinuxImpl {
   }
 
   static Future<void> _downloadFileToAlbum(
-    String path, {
+    String filePath, {
     required _FileType fileType,
     String? album,
   }) async {
     try {
-      final file = File(path);
+      final file = File(filePath);
       var downloadedFromNetwork = false;
 
       // Download from network
       if (!(await file.exists())) {
-        final uri = Uri.parse(path);
+        final uri = Uri.parse(filePath);
 
         // If it doesn't exists and it also doesn't starts with https
         if (!uri.isHttpBasedUrl()) {
@@ -62,7 +58,7 @@ final class GalLinuxImpl {
               platformException: PlatformException(
                 code: GalExceptionType.unexpected.code,
                 message:
-                    'You are trying to put file with path `$path` that does not exists '
+                    'You are trying to put file with path `$filePath` that does not exists '
                     'locally, Also it does not start with `http` nor `https`',
                 stacktrace: StackTrace.current.toString(),
               ),
@@ -71,9 +67,12 @@ final class GalLinuxImpl {
 
         // Save it to a temp directory for now
         final templLocation =
-            _getNewTempFileLocation(fileName: _baseName(path));
-        await executeCommand('wget -O "$templLocation" "$path"');
-        path = templLocation;
+            _getNewTempFileLocation(fileName: path.basename(filePath));
+        await executeCommand(
+          executalbe: 'wget',
+          args: ['-O', templLocation, filePath],
+        );
+        filePath = templLocation;
         downloadedFromNetwork = true;
       }
 
@@ -82,23 +81,28 @@ final class GalLinuxImpl {
         final newFileLocation = _getNewFileLocationWithAlbum(
           fileType: fileType,
           album: album,
-          fileName: _baseName(path),
+          fileName: path.basename(filePath),
         );
         await _makeSureParentFolderExists(path: newFileLocation);
         await executeCommand(
-          'mv "$path" "$newFileLocation"',
+          executalbe: 'mv',
+          args: [filePath, newFileLocation],
         );
       } else {
         // Save it in temp directory
         final newFileLocation =
-            _getNewTempFileLocation(fileName: _baseName(path));
+            _getNewTempFileLocation(fileName: path.basename(filePath));
         await _makeSureParentFolderExists(path: newFileLocation);
-        await executeCommand('mv "$path" "$newFileLocation"');
+        executeCommand(
+          executalbe: 'mv',
+          args: [filePath, newFileLocation],
+        );
       }
       // Remove the downloaded temp file from the network if it exists
       if (downloadedFromNetwork) {
         await executeCommand(
-          'rm "$path"',
+          executalbe: 'rm',
+          args: [filePath],
         );
       }
     } on ProcessException catch (e) {
@@ -161,7 +165,10 @@ final class GalLinuxImpl {
 
   static Future<void> _makeSureParentFolderExists(
       {required String path}) async {
-    await executeCommand('mkdir -p "${File(path).parent.path}"');
+    await executeCommand(
+      executalbe: 'mkdir',
+      args: ['-p', File(path).parent.path],
+    );
   }
 
   static Future<void> putImageBytes(Uint8List bytes,
@@ -191,8 +198,10 @@ final class GalLinuxImpl {
     }
   }
 
-  static Future<void> open() async =>
-      executeCommand('xdg-open "${_getHomeDirectory()}/Pictures"');
+  static Future<void> open() async => executeCommand(
+        executalbe: 'xdg-open',
+        args: ['${_getHomeDirectory()}/Pictures'],
+      );
 
   /// Requesting an access usually automated if there is a sandbox
   /// but we don't have much info and usually we have an access

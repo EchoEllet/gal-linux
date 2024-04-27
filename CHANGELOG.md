@@ -1,3 +1,6 @@
+## 0.1.1
+* Fix saving image fails if the image path includes whitespaces [#2](https://github.com/ellet0/gal-linux/issues/2)
+
 ## 0.1.0
 * Fix old links
 * Update minimum version of `gal`

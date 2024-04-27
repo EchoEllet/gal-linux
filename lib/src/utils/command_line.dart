@@ -2,15 +2,12 @@ import 'dart:io' show ProcessException, Process;
 
 import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb;
 
-Future<String> executeCommand(
-  String value, {
+Future<String> executeCommand({
+  required String executalbe,
+  required List<String> args,
   bool printResult = true,
   String? workingDirectory,
 }) async {
-  final executalbe = value.split(' ')[0];
-  final args = value.split(' ')
-    ..removeAt(0)
-    ..toList();
   if (kDebugMode) {
     if (printResult) {
       print('$executalbe ${args.join(' ')}');
