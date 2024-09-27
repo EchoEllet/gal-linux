@@ -1,6 +1,6 @@
 import 'dart:io' show ProcessException, Process;
 
-import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb;
+import 'package:flutter/foundation.dart' show debugPrint, kDebugMode, kIsWeb;
 
 Future<String> executeCommand({
   required String executable,
@@ -10,14 +10,13 @@ Future<String> executeCommand({
 }) async {
   if (kDebugMode) {
     if (printResult) {
-      print('$executable ${args.join(' ')}');
+      debugPrint(
+        'Running the command: $executable ${args.join(' ')}\n'
+        'This message will only appear in development mode and tree-shaken in release build.',
+      );
     }
   }
-  if (kIsWeb) {
-    throw UnsupportedError(
-      'The command line is not supported on web',
-    );
-  }
+  assert(kIsWeb, 'executeCommand() is not supported on the web.');
   final command = await Process.run(
     executable,
     args,

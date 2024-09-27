@@ -1,6 +1,6 @@
 import 'dart:io' show Directory, File, Platform, ProcessException;
 
-import 'package:flutter/foundation.dart' show Uint8List, immutable;
+import 'package:flutter/foundation.dart' show Uint8List;
 import 'package:flutter/services.dart' show PlatformException;
 import 'package:gal/gal.dart';
 import 'package:path/path.dart' as path show basename;
@@ -13,14 +13,8 @@ enum _FileType {
   video,
 }
 
-/// Impl for Linux platform
-///
-/// The support for Linux is limitied
-///
-/// it's not 100% spesefic to Linux, it could work for Unix based OS
-@immutable
 final class GalLinuxImpl {
-  const GalLinuxImpl._();
+  GalLinuxImpl._();
 
   static Future<void> putVideo(String path, {String? album}) async {
     await _downloadFileToAlbum(
@@ -58,8 +52,8 @@ final class GalLinuxImpl {
               platformException: PlatformException(
                 code: GalExceptionType.unexpected.code,
                 message:
-                    'You are trying to put file with path `$filePath` that does not exists '
-                    'locally, Also it does not start with `http` nor `https`',
+                    "You're trying to put file with path `$filePath` that does not exists "
+                    "locally, Also it doesn't start with `http` nor `https`",
                 stacktrace: StackTrace.current.toString(),
               ),
               stackTrace: StackTrace.current);
@@ -75,6 +69,8 @@ final class GalLinuxImpl {
         filePath = templLocation;
         downloadedFromNetwork = true;
       }
+
+      // TODO: Use cp instead of cp
 
       // Save it to the album
       if (album != null) {

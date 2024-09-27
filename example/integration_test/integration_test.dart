@@ -5,10 +5,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:gal/gal.dart';
 
+/// Integration_test is required to test native code,
+/// but it is not necessary to build the widget.
 Future<void> main() async {
-  for (var i = 0; i < 2; i++) {
-    final toAlbum = i == 0 ? false : true;
-    final album = toAlbum ? 'Album' : null;
+  final testCases = [
+    for (final isSavedToAlbum in [true, false])
+      TestCase(isSavedToAlbum: isSavedToAlbum),
+  ];
+
+  for (final testCase in testCases) {
+    final toAlbum = testCase.toAlbum;
+    final album = testCase.album;
 
     await run('hasAccess(toAlbum: $toAlbum)',
         () async => Gal.hasAccess(toAlbum: toAlbum));
@@ -67,4 +74,12 @@ Future<Uint8List> getBytesData(String path) async {
   final uint8List = byteData.buffer
       .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes);
   return Uint8List.fromList(uint8List);
+}
+
+class TestCase {
+  const TestCase({required this.isSavedToAlbum});
+  final bool isSavedToAlbum;
+
+  bool get toAlbum => isSavedToAlbum;
+  String? get album => isSavedToAlbum ? 'album' : null;
 }

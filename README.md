@@ -1,51 +1,41 @@
-# Gal Linux
+# 🖼️ Gal Linux
 
-## Table of Contents
-- [Gal Linux](#gal-linux)
-  - [Table of Contents](#table-of-contents)
-  - [About](#about)
-  - [Features](#features)
-  - [Usage](#usage)
+An unofficial Linux implementation of [`gal`](https://pub.dev/packages/gal).
 
-## About
+## ⚙️ Usage
 
-This is just an implementation package of the plugin [gal](https://pub.dev/packages/gal) for Linux
+This package is non-endorsed federated plugin, which means to use it, you need to add it in `pubspec.yaml`
+as a dependency in addition to `gal`:
+
+```yaml
+gal: ^latest-version-here
+gal_linux: ^latest-version-here
+```
+
+## 📉 Note on breaking changes
+
+Currently, the interface `GalPlatform` is not exposed as part of the public API of `gal`, which means
+any internal changes such as adding a new property in `gal` will be a breaking change for `gal_linux` users.
 
 ## Features
 
-The support for opening the gallery, requesting permission and check if we have access to the gallery
-is limited on Linux
+The support for opening the image gallery, requesting permission, and checking
+if the app has access to the gallery is limited on **Linux** as Linux
+is not opinionated platform that's unified similar to the other platforms.
 
 ## Usage
 
 The following command executables are required to use this plugin:
+
 1. `mkdir`
 2. `mv`
 3. `rm`
 4. `xdg-open`
 5. `wget`
 
-All of them should be already there in most Linux distros, wget might not in some cases so you need
-to manually install it using your package manager, example in Debian based distros:
+All of them are avaliable and pre-installed in most Linux distros, in some distors
+you might need to install `wget` manually:
 
-```
+```shell
 sudo apt install wget
 ```
-
-In most cases it should be already done
-
-Import `defaultTargetPlatform` and `kIsWeb` from library `flutter/foundation`
-
-```dart
-import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb;
-```
-
-You might want to execute (optional):
-
-```dart
-  if (defaultTargetPlatform == TargetPlatform.linux && !kIsWeb) {
-    GalPluginLinux.registerWith();
-  }
-```
-
-Before using any `gal` function

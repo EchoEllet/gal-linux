@@ -1,5 +1,4 @@
-import 'dart:typed_data' show Uint8List;
-
+import 'package:flutter/foundation.dart';
 // ignore: implementation_imports
 import 'package:gal/src/gal_platform_interface.dart';
 
@@ -7,6 +6,10 @@ import 'gal_linux_impl.dart';
 
 final class GalPluginLinux extends GalPlatform {
   static void registerWith() {
+    assert(
+      defaultTargetPlatform == TargetPlatform.linux && !kIsWeb,
+      '$GalPluginLinux should be only used for Linux.',
+    );
     GalPlatform.instance = GalPluginLinux();
   }
 
@@ -23,7 +26,7 @@ final class GalPluginLinux extends GalPlatform {
 
   @override
   Future<void> putImageBytes(Uint8List bytes,
-          {String? album, required String name}) =>
+          {required String name, String? album}) =>
       GalLinuxImpl.putImageBytes(bytes, album: album, name: name);
 
   @override
