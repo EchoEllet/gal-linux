@@ -8,6 +8,8 @@ import 'package:path/path.dart' as path show basename;
 import '../src/utils/uri_extension.dart';
 import 'utils/command_line.dart';
 
+// TODO: Implementation is invalid and could use improvements, rewrite it
+
 enum _FileType {
   image,
   video,
@@ -70,8 +72,6 @@ final class GalLinuxImpl {
         downloadedFromNetwork = true;
       }
 
-      // TODO: Use cp instead of cp
-
       // Save it to the album
       if (album != null) {
         final newFileLocation = _getNewFileLocationWithAlbum(
@@ -81,7 +81,7 @@ final class GalLinuxImpl {
         );
         await _makeSureParentFolderExists(path: newFileLocation);
         await executeCommand(
-          executable: 'mv',
+          executable: 'cp',
           args: [filePath, newFileLocation],
         );
       } else {
@@ -90,7 +90,7 @@ final class GalLinuxImpl {
             _getNewTempFileLocation(fileName: path.basename(filePath));
         await _makeSureParentFolderExists(path: newFileLocation);
         executeCommand(
-          executable: 'mv',
+          executable: 'cp',
           args: [filePath, newFileLocation],
         );
       }
