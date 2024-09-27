@@ -16,7 +16,7 @@ Future<String> executeCommand({
       );
     }
   }
-  assert(kIsWeb, 'executeCommand() is not supported on the web.');
+  assert(!kIsWeb, 'executeCommand() is not supported on the web.');
   final command = await Process.run(
     executable,
     args,
