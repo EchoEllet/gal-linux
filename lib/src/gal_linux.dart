@@ -14,8 +14,8 @@ final class GalPluginLinux extends GalPlatform {
   }
 
   @override
-  Future<bool> hasAccess({bool toAlbum = false}) =>
-      GalLinuxImpl.hasAccess(toAlbum: toAlbum);
+  Future<bool> hasPermission({bool toAlbum = false}) =>
+      GalLinuxImpl.hasPermission(toAlbum: toAlbum);
 
   @override
   Future<void> open() => GalLinuxImpl.open();
@@ -34,6 +34,6 @@ final class GalPluginLinux extends GalPlatform {
       GalLinuxImpl.putVideo(path, album: album);
 
   @override
-  Future<bool> requestAccess({bool toAlbum = false}) =>
-      GalLinuxImpl.requestAccess(toAlbum: toAlbum);
+  Future<bool> requestPermission({bool toAlbum = false}) =>
+      GalLinuxImpl.requestPermission(toAlbum: toAlbum);
 }
