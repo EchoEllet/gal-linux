@@ -201,10 +201,10 @@ final class GalLinuxImpl {
 
   /// Requesting an access usually automated if there is a sandbox
   /// but we don't have much info and usually we have an access
-  static Future<bool> hasAccess({bool toAlbum = false}) async => true;
+  static Future<bool> hasPermission({bool toAlbum = false}) async => true;
 
   /// Requesting an access usually automated once we try
   /// to save an image if there was a sandbox
   /// but we don't have much info and usually we have an access
-  static Future<bool> requestAccess({bool toAlbum = false}) async => true;
+  static Future<bool> requestPermission({bool toAlbum = false}) async => true;
 }
